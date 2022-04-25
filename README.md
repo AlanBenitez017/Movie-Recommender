@@ -17,5 +17,5 @@ pip install numpy<br />
 pip install pandas<br />
 pip install matplotlib<br />
 pip install sklearn<br />
-3- Comment the line 135 of main.py where it calls the plot. It would be the line containing "myMovieRecommender.plot(myMovieRecommender.moviesDF)"
+3- Comment the line 135 of main.py where it calls the plot. It would be the line containing "myMovieRecommender.plot(myMovieRecommender.moviesDF)"<br />
 4- run python3 main.py creditsDataset.csv moviesDataset.csv
