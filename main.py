@@ -48,7 +48,6 @@ class MovieRecommender:
     def weighted_rating(self, df, averageVote, quantile90percent):
         voteCount = df["vote_count"]
         R = df["vote_average"]
-        #print("R = " + R)
         return (voteCount/(voteCount + quantile90percent) * R) + (quantile90percent/(voteCount + quantile90percent) * averageVote)
     
     # Adds a new column named score and populates it with the weighted rating of every row, then sorts it by scores and prints the first 5
@@ -96,23 +95,33 @@ class MovieRecommender:
     # Select the following 10 values because the first entry is itself. 
     # Retrieves those movie indices, maps it to titles, and return the movie list.
     def getRecommendations(self, title, cosine_sim, indices):
+        movies = []
+        try:
+            indices[title]
+            index = indices[title]
+            sim_scores = list(enumerate(cosine_sim[index]))
+            sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+            sim_scores = sim_scores[1:11]
 
-        idx = indices[title]
-        sim_scores = list(enumerate(cosine_sim[idx]))
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:11]
-
-        movies_indices = [ind[0] for ind in sim_scores]
-        movies = self.moviesDF["title_y"].iloc[movies_indices]
-        print(movies)
+            movies_indices = [ind[0] for ind in sim_scores]
+            movies = self.moviesDF["title_y"].iloc[movies_indices]
+            print(movies)
+        except:
+            print("This movie is not in the dataset")
+            self.runProgram(cos_sim, indices)
+        
         return movies
 
     #Running the program
     def runProgram(self, cos_sim, indices):
-        print("##########    CONTENT-BASED FILTERING    ###########")
-        title = input("Enter the name of the movie that you would like to see the Recomendations: ")
-        print("Recommendations for " + title)
-        self.getRecommendations(title, cos_sim, indices)
+        while True:
+            print("##########    CONTENT-BASED FILTERING MOVIE RECOMMENDER    ###########")
+            title = input("Enter the name of the movie that you would like to see the Recomendations, or exit to finish the program: ")
+            if title != "exit":
+                print("Recommendations for " + title)
+                self.getRecommendations(title, cos_sim, indices)
+            else:
+                sys.exit(0)
 
 # Main
 if __name__ == "__main__":
