@@ -6,4 +6,4 @@ pip install pandas<br />
 pip install matplotlib<br />
 pip install sklearn<br />
 <br />
-After installing these libraries, please run the run.bat file in the **command prompt** in order to run the program. You can do so by simply running **run**
+After installing these libraries, please run the run.bat file in the **command prompt**(cmd) in order to run the program. You can do so by simply running **run**
